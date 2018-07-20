@@ -15,7 +15,7 @@
 
         <div class="jumbotron text-center">
             <h1>NY Times Scraper</h1>
-            <a class="btn-fetch btn btn-primary" href="#" role="button">Fetch New Articles</a>
+            <button type="button" class="btn btn-primary" id="scrape">Scrape Articles</button>
         </div>
         
         <nav class="navbar navbar-brand-lg">
@@ -32,22 +32,17 @@
                 </ul>
             </div>
         </nav> 
-    </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="myModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div class="modal-title"></div>
-                </div>
-                <div class-"modal-body">
-                    <p id="note">Notes</p>
-                    <div class="input"></div>
-                </div>
-            </div>
+        <div id="wrapper">
+            <h1>Ny Times</h1>
+            <div id="articles"></div>
+            <div id="notes"></div>
+            <div id="inputArea"></div>
         </div>
+            
     </div>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>

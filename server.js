@@ -17,6 +17,8 @@ var app = express();
 
 //configure middleware
 
+// Use morgan logger for logging requests
+app.use(logger("dev"));
 //use body-parser for handling form submissions
 app.use(bodyParser.urlencoded({
     extended: true
@@ -25,7 +27,8 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 
 //Connect to Mongo DB
-mongoose.connect("mongodb://localhost/mongo_scraper");
+mongoose.connect("mongodb://localhost:27017/mongo_scraper");
+
 
 // A GET route for scraping the echoJS website
 app.get("/scrape", function (req, res) {
@@ -35,16 +38,16 @@ app.get("/scrape", function (req, res) {
         var $ = cheerio.load(response.data);
 
         // Now, we grab every h2 within an article tag, and do the following:
-        $("story-heading h2").each(function (i, element) {
+        $("article").each(function (i, element) {
             // Save an empty result object
             var result = {};
 
             // Add the text and href of every link, and save them as properties of the result object
             result.title = $(this)
-                .children("a")
+                .children("h2")
                 .text();
             result.link = $(this)
-                .children("a")
+                .children("h2").children("a")
                 .attr("href");
 
             // Create a new Article using the `result` object built from scraping

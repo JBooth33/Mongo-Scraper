@@ -1,5 +1,6 @@
 //on-click event to scrape NYT site
 $("#scrape").on("click", function() {
+    console.log("Success");
     $.ajax({
         method: "GET", url: "/scrape",
     }).done(function(data) {
