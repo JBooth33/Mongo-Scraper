@@ -15,3 +15,36 @@ $.getJSON("/articles", function(data) {
         $("#articles").append("<p data-id'" + data[i].id + "';" + data[i].title + "<br />" + data[i].link + "</p>");
     }
 })
+
+//when user clicks a p tag
+$(document).on("click", "p", function() {
+    //empty the notes from note section
+    $("#notes").empty();
+    //save the id from the p tag
+    var thisID = $(this).attr("data-id");
+    //make ajax call for the article
+    $.ajax({
+        method: "GET",
+        url: "/articles/" +thisID
+    })
+    //add the note information to page
+    .then(function(data) {
+        console.log(data);
+        //article title
+        $("#notes").append("<h2>" + data.ittle + "</h2>");
+        //input to enter new title
+        $("#notes").append("<input id='titleinput' name='title' >");
+        //text area to add new note body
+        $("#notes").append("textarea id='bodyinput' name='body'></textarea>");
+        //button to submit new note with id of article saved to it
+        $("#notes").append("<button data-id='" + data._id + "' id='savenote'>SaveNote</button>");
+
+        //if there's a note in the article
+        if (data.note) {
+            //place title of note in title input
+            $("#titleinput").val(data.note.title);
+            //place body of note in body textarea
+            $("#bodyinput").val(data.note.body);
+        }
+    })
+});
