@@ -10,10 +10,12 @@ var cheerio = require("cheerio");
 //require all models
 var db = require("./models");
 
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
 
 //initialize Express
 var app = express();
+
+
 
 //configure middleware
 
@@ -27,7 +29,13 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 
 //Connect to Mongo DB
-mongoose.connect("mongodb://localhost:27017/mongo_scraper");
+// If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/mongoHeadlines";
+
+// Set mongoose to leverage built in JavaScript ES6 Promises
+// Connect to the Mongo DB
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI);
 
 
 // A GET route for scraping the echoJS website
@@ -44,7 +52,6 @@ app.get("/scrape", function (req, res) {
 
             // Add the text and href of every link, and save them as properties of the result object
             result.title = $(this).children("h2").text();
-            result.summary = $(this).children(".summary").text();
             result.link = $(this)
                 .children("h2").children("a")
                 .attr("href");

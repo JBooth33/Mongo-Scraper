@@ -13,12 +13,12 @@ $("#scrape").on("click", function() {
 
 $.getJSON("/articles", function(data) {
     for(var i =0; i < data.length; i++) {
-        $("#articles").append("<p data-id'" + data[i].id + "';" + data[i].title + "<br />" + data[i].link + "</p>");
+        $("#articles").append("<p data-id='" + data[i].id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
     }
 })
 
-//when user clicks a p tag
-$(document).on("click", "p", function() {
+//when user clicks article
+$(document).on("click", "#addnote", function() {
     //empty the notes from note section
     $("#notes").empty();
     //save the id from the p tag
@@ -32,7 +32,7 @@ $(document).on("click", "p", function() {
     .then(function(data) {
         console.log(data);
         //article title
-        $("#notes").append("<h2>" + data.ittle + "</h2>");
+        $("#notes").append("<h2>" + data.title + "</h2>");
         //input to enter new title
         $("#notes").append("<input id='titleinput' name='title' >");
         //text area to add new note body
@@ -77,3 +77,4 @@ $(document).on("click", "#savenote", function() {
     $("#titleinput").val("");
     $("#bodyinput").val("");
 });
+
